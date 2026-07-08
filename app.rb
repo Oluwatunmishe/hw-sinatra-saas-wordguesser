@@ -74,6 +74,8 @@ class WordGuesserApp < Sinatra::Base
     ### YOUR CODE HERE ###
     if @game.check_win_or_lose != :win
       redirect '/show'
+    else 
+      erb :win
     end
 
   end
@@ -82,6 +84,8 @@ class WordGuesserApp < Sinatra::Base
     ### YOUR CODE HERE ###
     if @game.check_win_or_lose != :lose
       redirect '/show'
+    else
+      erb :lose
    
     end
   end
