@@ -8,15 +8,15 @@ class WordGuesserGame
   def initialize(word)
     
     @word = word
-    @guesses = []
-    @wrong_guesses = 0
+    @guesses = ''
+    @wrong_guesses = ''
     
     
   end
   def check_win_or_lose 
    if word_with_guesses == @word
     :win
-   elsif @wrong_guesses >= 7
+   elsif @wrong_guesses.length >= 7
     :lose
    else
     :play
@@ -37,17 +37,20 @@ class WordGuesserGame
       
   end 
   def guess(letters)
+    letters = letters.to_s.downcase
+    raise ArgumentError if letters.nil? || letters.empty? || !letters.match?(/^[a-zA-Z]$/)
+
     
     
-    if @guesses.include?(letters)
-        @wrong_guesses
+    if @guesses.include?(letters) || @wrong_guesses.include?(letters)
+        return false
     elsif @word.include?(letters)
         @guesses << letters
     else
-      @wrong_guesses +=1
+      @wrong_guesses << letters
     
     end
-    @guesses
+  
   end
 
 

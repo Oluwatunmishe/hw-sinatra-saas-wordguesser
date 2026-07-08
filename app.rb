@@ -41,14 +41,16 @@ class WordGuesserApp < Sinatra::Base
   post '/guess' do
     params[:guess].to_s[0]
     ### YOUR CODE HERE ###
-    redirect '/show'
-    if @game.guesses.include?(params[:guess].to_s[0])
-      flash[:message] = "You have already used that letter."
-    elsif params[:guess].to_s[0] =~ /[^a-zA-Z]/
+    begin
+      valid_guess = @game.guess(params[:guess].to_s[0])
+      if !valid_guess
+        flash[:message] = "You have already used that letter."
+      end
+    rescue ArgumentError
       flash[:message] = "Invalid guess."
-    else
-      @game.guess(params[:guess].to_s[0])
     end
+    redirect '/show'
+
   end
 
   # Everytime a guess is made, we should eventually end up at this route.
@@ -81,5 +83,6 @@ class WordGuesserApp < Sinatra::Base
     if @game.check_win_or_lose != :lose
       redirect '/show'
    
+    end
   end
 end
